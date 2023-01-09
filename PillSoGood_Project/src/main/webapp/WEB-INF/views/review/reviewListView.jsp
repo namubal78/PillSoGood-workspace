@@ -257,13 +257,13 @@
 											<tr>
 												<c:choose>
 													<c:when test="${ list[i].subsStatus eq 'N'}">
-														<td>${ list[i].memberName }&emsp;<span style="color: #78C2AD; font-weight: bold;">일시결제</span></td>
+														<td>${ list[i].memberName }&emsp;<span style="color: #78C2AD; font-weight: bold;">${ list[i].productName }&emsp;일시결제</span></td>
 													</c:when>
 													<c:when test="${ list[i].subsStatus eq 'Y'}">
-														<td>${ list[i].memberName }&emsp;<span style="color: #78C2AD; font-weight: bold;">정기결제</span></td>
+														<td>${ list[i].memberName }&emsp;<span style="color: #78C2AD; font-weight: bold;">${ list[i].productName }&emsp;정기결제</span></td>
 													</c:when>
 													<c:otherwise>
-														<td>${ list[i].memberName }&emsp;<span style="color: #78C2AD; font-weight: bold;">정기결제</span></td>
+														<td>${ list[i].memberName }&emsp;<span style="color: #78C2AD; font-weight: bold;">${ list[i].productName }&emsp;정기결제</span></td>
 													</c:otherwise>
 												</c:choose>
 												<td></td>

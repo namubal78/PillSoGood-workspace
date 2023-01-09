@@ -54,7 +54,7 @@
 		<result column="CART_NO" property="cartNo" />												
 		<result column="CART_STATUS" property="cartStatus" />												
 		<result column="PRODUCT_NAME" property="productName" />												
-		<result column="PRODUCT_NO" property="productNo" />												
+		<result column="PRODUCT_NO" property="productNo" />
 	</resultMap>
 	
 	<resultMap id="reviewROrderProductNameResultSet" type="review">
@@ -108,6 +108,7 @@
 			 , MEMBER_ID
 			 , SUBS_STATUS
 			 , REVIEW_STATUS
+			 , ORDER_NO
   	   FROM REVIEW
        JOIN MEMBER USING (MEMBER_NO)
        JOIN ORDERS USING (ORDER_NO)

@@ -87,7 +87,8 @@ public class ReviewController {
 
 		// 일반 리뷰 전체 조회
 		ArrayList<Review> list = reviewService.selectList(pi, order);
-				
+		// System.out.println("가공 전 list: " + list);
+		
 		for(int i = 0; i < list.size(); i++) {
 			
 			Review review = list.get(i);
@@ -98,14 +99,40 @@ public class ReviewController {
 			ArrayList<ReviewFile> flist = reviewService.selectReviewFile(rno);
 			int replyCount = reviewService.selectReplyCount(rno);
 			
+			// orderNo에 해당하는 productName 들 추출해서 배열로 담음
+			long orderNo = 0;
+			orderNo = review.getOrderNo();
+			// System.out.println("orderNo: " + orderNo);
+			ArrayList<Review> rOrderProductNameList = reviewService.selectROrderProductNameList(orderNo);
+			// System.out.println("rOrderProductNameList : " + rOrderProductNameList);
+			
+			// 배열 -> 문자열 가공
+			String rOrderProductNames = "";
+			
+			if( rOrderProductNameList.size() == 1 ) { // 상품 한 개
+				
+				rOrderProductNames += rOrderProductNameList.get(0).getProductName();
+			}
+			else if ( rOrderProductNameList.size() > 1 ){ // 상품 두 개 이상
+				
+				rOrderProductNames += rOrderProductNameList.get(0).getProductName();
+				for( int j = 1; j < rOrderProductNameList.size(); j++) {
+					
+					rOrderProductNames += ", ";
+					rOrderProductNames += rOrderProductNameList.get(j).getProductName();
+				}
+			}
+			
+			// System.out.println("rOrderProductNames: " + rOrderProductNames);
+			
 			review.setFlist(flist);
 			review.setReplyCount(replyCount);
+			review.setProductName(rOrderProductNames);
 		}
-		// System.out.println(list);
 		model.addAttribute("list", list);
 		model.addAttribute("order", order);
 
-		// System.out.println(list);
+		System.out.println("가공 후 list: " + list);
 		
 		// 리턴
 		return "review/reviewListView";
@@ -212,7 +239,6 @@ public class ReviewController {
 			Review rawReview = reviewService.selectRawReview(memberNo);
 			rawReview.setProductName(rOrderProductNames);
 			// System.out.println("rawReview : " + rawReview); 
-			// productName 이 담기기는 하는데, 컬럼이 없어서 조회 때 보여줄 길이 없음. 인증 조건 정도로 해야하거나, 선생님한테 여쭤보기
 
 			int rawReviewNo = rawReview.getReviewNo();
 			// upfile 에 비었든 안 비었든 MultipartFIle 객체는 하나 이상 만들어짐(사용자가 파일첨부를 시도하고 취소하더라도 빈 MultipartFIle 객체가 만들어지기 때문)
